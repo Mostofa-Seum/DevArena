@@ -13,10 +13,20 @@ namespace DevArena.Entities
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+
+        [Required]
         public int ParticipantId { get; set; }
+
+        [Required]
         public int ContestId { get; set; }
+
+        [Required]
         public int PromotedByHostId { get; set; }
+
+        [Required]
         public bool IsActive { get; set; } = true;
+
+        [Required]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         [ForeignKey("ParticipantId")]

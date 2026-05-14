@@ -14,12 +14,20 @@ namespace DevArena.Entities
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
+        [Required]
         public int SubmissionId { get; set; }
 
+        [Required]
         public int JudgeId { get; set; }
 
+        [Required]
         public string Verdict { get; set; }
+
+        [Required]
+        [StringLength(50)]
         public string Feedback { get; set; }
+
+        [Required]
         public DateTime ReviewedAt { get; set; } = DateTime.UtcNow;
 
         [ForeignKey("SubmissionId")]

@@ -14,14 +14,23 @@ namespace DevArena.Entities
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
+        [Required]
         public int ParticipantId { get; set; }
 
+        [Required]
         public int ContestId { get; set; }
 
+        [Required]
         public int ProblemId { get; set; }
 
+        [Required]
         public string CodeText { get; set; }
-        public string Status { get; set; } 
+
+        [Required]
+        [StringLength(50)]
+        public string Status { get; set; }
+
+        [Required]
         public DateTime SubmittedAt { get; set; } = DateTime.UtcNow;
 
         [ForeignKey("ParticipantId")]
@@ -29,7 +38,6 @@ namespace DevArena.Entities
 
         [ForeignKey("ContestId")]
         public virtual Contests Contest { get; set; }
-
 
         [ForeignKey("ProblemId")]
         public virtual Problems Problem { get; set; }

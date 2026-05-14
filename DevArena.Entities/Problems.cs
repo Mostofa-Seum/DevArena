@@ -13,11 +13,24 @@ namespace DevArena.Entities
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ProblemId { get; set; }
+
+        [Required]
+        [StringLength(50)]
         public string Title { get; set; }
+
+        [Required]
         public string Description { get; set; }
+
+        [Required]
         public string InputFormat { get; set; }
+
+        [Required]
         public string OutputFormat { get; set; }
+
+        [Required]
         public int JudgeId { get; set; }
+
+        [Required]
         public int ContestId { get; set; }
 
         [ForeignKey("JudgeId")]

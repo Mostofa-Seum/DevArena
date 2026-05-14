@@ -13,7 +13,12 @@ namespace DevArena.Entities
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+
+        [Required]
+        [StringLength(50)]
         public string Title { get; set; }
+
+        [Required]
         public string Message { get; set; }
 
         public int HostId { get; set; }
