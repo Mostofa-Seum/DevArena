@@ -1,14 +1,21 @@
 ﻿using DevArena.Data;
+using DevArena.Repos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DevArena.Web.Controllers
 {
-    public class Contests(DevArenaDbContext context) : Controller
+    public class Contests(ContestsRepo contestsRepo) : Controller
     {
 
         public IActionResult Index()
         {
-            return Content(context.Contests.ToList().Count.ToString());
+            var result =  contestsRepo.GetAll();
+            if (result.HasError)
+            {
+                ViewBag.ErrorMessage = result.Message;
+                return View();
+            }
+            return View(result.Data);
         }
     }
 }
