@@ -11,7 +11,7 @@ namespace DevArena.Entities
     [Table("admins")]
     public class Admin
     {
-        [Key]
+        [Key,DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }

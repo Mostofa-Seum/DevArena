@@ -11,7 +11,7 @@ namespace DevArena.Entities
     [Table("contest_registration")]
     public class ContestRegistration
     {
-        [Key]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         public int ContestId { get; set; }

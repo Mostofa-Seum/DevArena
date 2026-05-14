@@ -11,7 +11,7 @@ namespace DevArena.Entities
     [Table("problems")]
     public class Problems
     {
-        [Key]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ProblemId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }

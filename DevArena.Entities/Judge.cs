@@ -11,7 +11,7 @@ namespace DevArena.Entities
     [Table("judges")]
     public class Judge
     {
-        [Key]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public int ParticipantId { get; set; }
         public int ContestId { get; set; }

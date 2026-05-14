@@ -11,7 +11,7 @@ namespace DevArena.Entities
     [Table("submissions")]
     public class Submission
     {
-        [Key]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         public int ParticipantId { get; set; }

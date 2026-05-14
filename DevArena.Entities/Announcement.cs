@@ -11,7 +11,7 @@ namespace DevArena.Entities
     [Table("announcements")]
     public class Announcement
     {
-        [Key]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Title { get; set; }
         public string Message { get; set; }

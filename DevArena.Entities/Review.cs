@@ -11,7 +11,7 @@ namespace DevArena.Entities
     [Table("reviews")]
     public class Review
     {
-        [Key]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         public int SubmissionId { get; set; }

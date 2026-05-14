@@ -6,7 +6,7 @@ namespace DevArena.Entities
     [Table("contests")]
     public class Contests
     {
-        [Key]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         public int HostId { get; set; }
