@@ -12,24 +12,22 @@ namespace DevArena.Entities
     public class Participants
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int id { get; set; }
 
         [Required]
         [StringLength(250)]
-        public string Name { get; set; } = null!;
-
+        public string name { get; set; } = null!;
         [Required]
         [StringLength(150)]
-        public string Email { get; set; } = null!;
+        public string email { get; set; } = null!;
 
         [Required]
         [StringLength(50)]
-        public string Password { get; set; } = null!;
+        public string password { get; set; } = null!;
+        [Required]
+        public bool Is_active { get; set; } = true;
 
         [Required]
-        public bool IsActive { get; set; } = true;
-
-        [Required]
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime created_at { get; set; } = DateTime.UtcNow;
     }
 }

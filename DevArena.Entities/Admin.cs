@@ -13,16 +13,16 @@ namespace DevArena.Entities
     public class Admin
     {
         [Key,DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int id { get; set; }
         [Required]
         [StringLength(250)]
-        public string Name { get; set; } = null!;
+        public string name { get; set; } = null!;
         [Required]
         [EmailAddress]
-        public string Email { get; set; } = null!;
+        public string email { get; set; } = null!;
         [Required]
         [PasswordPropertyText]
-        public string Password { get; set; } = null!;
-        public bool IsActive { get; set; } = true;
+        public string password { get; set; } = null!;
+        public bool Is_active { get; set; } = true;
     }
 }

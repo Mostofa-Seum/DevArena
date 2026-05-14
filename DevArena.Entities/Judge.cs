@@ -12,30 +12,30 @@ namespace DevArena.Entities
     public class Judge
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int id { get; set; }
 
         [Required]
-        public int ParticipantId { get; set; }
+        public int participant_id { get; set; }
 
         [Required]
-        public int ContestId { get; set; }
+        public int contest_id { get; set; }
 
         [Required]
-        public int PromotedByHostId { get; set; }
+        public int promoted_by_host_id { get; set; }
 
         [Required]
-        public bool IsActive { get; set; } = true;
+        public bool Is_active { get; set; } = true;
 
         [Required]
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime created_at { get; set; } = DateTime.UtcNow;
 
-        [ForeignKey("ParticipantId")]
+        [ForeignKey("participant_id")]
         public virtual Participants Participants { get; set; } = null!;
 
-        [ForeignKey("ContestId")]
+        [ForeignKey("contest_id")]
         public virtual Contests Contest { get; set; } = null!;
 
-        [ForeignKey("PromotedByHostId")]
+        [ForeignKey("promoted_by_host_id")]
         public virtual Host Host { get; set; } = null!;
     }
 }

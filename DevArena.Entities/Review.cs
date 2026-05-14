@@ -12,28 +12,27 @@ namespace DevArena.Entities
     public class Review
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int id { get; set; }
 
         [Required]
-        public int SubmissionId { get; set; }
+        public int submission_id { get; set; }
 
         [Required]
-        public int JudgeId { get; set; }
+        public int judge_id { get; set; }
 
         [Required]
-        public string Verdict { get; set; } = null!;
+        public string verdict { get; set; } = null!;
 
         [Required]
         [StringLength(50)]
-        public string Feedback { get; set; } = null!;
-
+        public string feedback { get; set; } = null!;
         [Required]
-        public DateTime ReviewedAt { get; set; } = DateTime.UtcNow;
+        public DateTime reviewed_at { get; set; } = DateTime.UtcNow;
 
-        [ForeignKey("SubmissionId")]
+        [ForeignKey("submission_id")]
         public virtual Submission Submission { get; set; } = null!;
 
-        [ForeignKey("JudgeId")]
+        [ForeignKey("judge_id")]
         public virtual Judge Judge { get; set; } = null!;
     }
 }

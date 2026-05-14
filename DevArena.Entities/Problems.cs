@@ -12,31 +12,30 @@ namespace DevArena.Entities
     public class Problems
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ProblemId { get; set; }
+        public int problem_id { get; set; }
 
         [Required]
         [StringLength(50)]
-        public string Title { get; set; } = null!;
+        public string title { get; set; } = null!;
+        [Required]
+        public string description { get; set; } = null!;
 
         [Required]
-        public string Description { get; set; } = null!;
+        public string input_format { get; set; } = null!;
 
         [Required]
-        public string InputFormat { get; set; } = null!;
+        public string output_format { get; set; } = null!;
 
         [Required]
-        public string OutputFormat { get; set; } = null!;
+        public int judge_id { get; set; }
 
         [Required]
-        public int JudgeId { get; set; }
+        public int contest_id { get; set; }
 
-        [Required]
-        public int ContestId { get; set; }
-
-        [ForeignKey("JudgeId")]
+        [ForeignKey("judge_id")]
         public virtual Judge Judge { get; set; } = null!;
 
-        [ForeignKey("ContestId")]
+        [ForeignKey("contest_id")]
         public virtual Contests Contest { get; set; } = null!;
     }
 }

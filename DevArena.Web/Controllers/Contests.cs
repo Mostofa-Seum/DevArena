@@ -1,12 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DevArena.Data;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DevArena.Web.Controllers
 {
-    public class Contests : Controller
+    public class Contests(DevArenaDbContext context) : Controller
     {
+
         public IActionResult Index()
         {
-            return Content("Hello, World!");
+            return Content(context.Contests.ToList().Count.ToString());
         }
     }
 }

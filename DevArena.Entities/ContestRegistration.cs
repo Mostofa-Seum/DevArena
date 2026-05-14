@@ -12,26 +12,25 @@ namespace DevArena.Entities
     public class ContestRegistration
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int id { get; set; }
 
         [Required]
-        public int ContestId { get; set; }
+        public int contest_id { get; set; }
 
         [Required]
-        public int ParticipantId { get; set; }
+        public int participant_id { get; set; }
 
         [Required]
-        public DateTime RegTime { get; set; } = DateTime.UtcNow;
+        public DateTime reg_time { get; set; } = DateTime.UtcNow;
 
         [Required]
-        public bool IsActive { get; set; } = true;
+        public bool is_active { get; set; } = true;
 
 
-
-        [ForeignKey("ContestId")]
+        [ForeignKey("contest_id")]
         public virtual Contests Contest { get; set; }
 
-        [ForeignKey("ParticipantId")]
+        [ForeignKey("participant_id")]
         public virtual Participants Participant { get; set; }
     }
 }

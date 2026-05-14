@@ -12,20 +12,18 @@ namespace DevArena.Entities
     public class Announcement
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int id { get; set; }
 
         [Required]
         [StringLength(50)]
-        public string Title { get; set; } = null!;
-
+        public string title { get; set; } = null!;
         [Required]
-        public string Message { get; set; } = null!;
+        public string message { get; set; } = null!;
 
-        public int HostId { get; set; }
+        public int host_id { get; set; }
+        public bool Is_active { get; set; } = true;
 
-        public bool IsActive { get; set; } = true;
-
-        [ForeignKey("HostId")]
+        [ForeignKey("host_id")]
         public virtual Host Host { get; set; } = null!;
     }
 }

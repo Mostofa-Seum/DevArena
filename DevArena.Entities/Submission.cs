@@ -12,33 +12,33 @@ namespace DevArena.Entities
     public class Submission
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int id { get; set; }
 
         [Required]
-        public int ParticipantId { get; set; }
+        public int participant_id { get; set; }
 
         [Required]
-        public int ContestId { get; set; }
+        public int contest_id { get; set; }
 
         [Required]
-        public int ProblemId { get; set; }
+        public int problem_id { get; set; }
 
         [Required]
-        public string CodeText { get; set; } = null!;
+        public string code_text { get; set; } = null!;
          
         [Required]
         [StringLength(50)]
-        public string Status { get; set; } = null!;
+        public string status { get; set; } = null!;
         [Required]
-        public DateTime SubmittedAt { get; set; } = DateTime.UtcNow;
+        public DateTime submitted_at { get; set; } = DateTime.UtcNow;
 
-        [ForeignKey("ParticipantId")]
+        [ForeignKey("participant_id")]
         public virtual Participants Participant { get; set; } = null!;
 
-        [ForeignKey("ContestId")]
+        [ForeignKey("contest_id")]
         public virtual Contests Contest { get; set; } = null!;
 
-        [ForeignKey("ProblemId")]
+        [ForeignKey("problem_id")]
         public virtual Problems Problem { get; set; } = null!;
     }
 }
