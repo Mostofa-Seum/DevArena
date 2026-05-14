@@ -16,15 +16,15 @@ namespace DevArena.Entities
 
         [Required]
         [StringLength(250)]
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
 
         [Required]
         [StringLength(150)]
-        public string Email { get; set; }
+        public string Email { get; set; } = null!;
 
         [Required]
         [StringLength(50)]
-        public string Password { get; set; }
+        public string Password { get; set; } = null!;
 
         [Required]
         public bool IsActive { get; set; } = true;

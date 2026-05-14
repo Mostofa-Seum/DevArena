@@ -30,12 +30,12 @@ namespace DevArena.Entities
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         [ForeignKey("ParticipantId")]
-        public virtual Participants Participants { get; set; }
+        public virtual Participants Participants { get; set; } = null!;
 
         [ForeignKey("ContestId")]
-        public virtual Contests Contest { get; set; }
+        public virtual Contests Contest { get; set; } = null!;
 
         [ForeignKey("PromotedByHostId")]
-        public virtual Host Host { get; set; }
+        public virtual Host Host { get; set; } = null!;
     }
 }

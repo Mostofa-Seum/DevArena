@@ -16,16 +16,16 @@ namespace DevArena.Entities
 
         [Required]
         [StringLength(50)]
-        public string Title { get; set; }
+        public string Title { get; set; } = null!;
 
         [Required]
-        public string Message { get; set; }
+        public string Message { get; set; } = null!;
 
         public int HostId { get; set; }
 
         public bool IsActive { get; set; } = true;
 
         [ForeignKey("HostId")]
-        public virtual Host Host { get; set; }
+        public virtual Host Host { get; set; } = null!;
     }
 }

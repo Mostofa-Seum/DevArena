@@ -21,19 +21,19 @@ namespace DevArena.Entities
         public int JudgeId { get; set; }
 
         [Required]
-        public string Verdict { get; set; }
+        public string Verdict { get; set; } = null!;
 
         [Required]
         [StringLength(50)]
-        public string Feedback { get; set; }
+        public string Feedback { get; set; } = null!;
 
         [Required]
         public DateTime ReviewedAt { get; set; } = DateTime.UtcNow;
 
         [ForeignKey("SubmissionId")]
-        public virtual Submission Submission { get; set; }
+        public virtual Submission Submission { get; set; } = null!;
 
         [ForeignKey("JudgeId")]
-        public virtual Judge Judge { get; set; }
+        public virtual Judge Judge { get; set; } = null!;
     }
 }

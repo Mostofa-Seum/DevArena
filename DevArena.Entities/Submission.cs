@@ -24,22 +24,21 @@ namespace DevArena.Entities
         public int ProblemId { get; set; }
 
         [Required]
-        public string CodeText { get; set; }
-
+        public string CodeText { get; set; } = null!;
+         
         [Required]
         [StringLength(50)]
-        public string Status { get; set; }
-
+        public string Status { get; set; } = null!;
         [Required]
         public DateTime SubmittedAt { get; set; } = DateTime.UtcNow;
 
         [ForeignKey("ParticipantId")]
-        public virtual Participants Participant { get; set; }
+        public virtual Participants Participant { get; set; } = null!;
 
         [ForeignKey("ContestId")]
-        public virtual Contests Contest { get; set; }
+        public virtual Contests Contest { get; set; } = null!;
 
         [ForeignKey("ProblemId")]
-        public virtual Problems Problem { get; set; }
+        public virtual Problems Problem { get; set; } = null!;
     }
 }

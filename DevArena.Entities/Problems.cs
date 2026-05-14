@@ -16,16 +16,16 @@ namespace DevArena.Entities
 
         [Required]
         [StringLength(50)]
-        public string Title { get; set; }
+        public string Title { get; set; } = null!;
 
         [Required]
-        public string Description { get; set; }
+        public string Description { get; set; } = null!;
 
         [Required]
-        public string InputFormat { get; set; }
+        public string InputFormat { get; set; } = null!;
 
         [Required]
-        public string OutputFormat { get; set; }
+        public string OutputFormat { get; set; } = null!;
 
         [Required]
         public int JudgeId { get; set; }
@@ -34,9 +34,9 @@ namespace DevArena.Entities
         public int ContestId { get; set; }
 
         [ForeignKey("JudgeId")]
-        public virtual Judge Judge { get; set; }
+        public virtual Judge Judge { get; set; } = null!;
 
         [ForeignKey("ContestId")]
-        public virtual Contests Contest { get; set; }
+        public virtual Contests Contest { get; set; } = null!;
     }
 }

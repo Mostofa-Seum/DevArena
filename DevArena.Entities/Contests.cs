@@ -14,7 +14,7 @@ namespace DevArena.Entities
         public int HostId { get; set; }
 
         [Required]
-        public string Title { get; set; }
+        public string Title { get; set; } = null!;
 
         [Required]
         public DateTime StartTime { get; set; }
@@ -26,6 +26,6 @@ namespace DevArena.Entities
         public bool IsActive { get; set; } = true;
 
         [ForeignKey("HostId")]
-        public virtual Host Hosts { get; set; }
+        public virtual Host Hosts { get; set; } = null!;
     }
 }
