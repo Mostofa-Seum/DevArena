@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevArena.Repos", "DevArena.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevArena.Shared", "DevArena.Shared\DevArena.Shared.csproj", "{C4087270-0C61-423D-B316-7B39066F8637}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevArena.Models", "DevArena.Models\DevArena.Models.csproj", "{D84371CE-5127-4022-9A7C-52F218C97B29}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{C4087270-0C61-423D-B316-7B39066F8637}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C4087270-0C61-423D-B316-7B39066F8637}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C4087270-0C61-423D-B316-7B39066F8637}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D84371CE-5127-4022-9A7C-52F218C97B29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D84371CE-5127-4022-9A7C-52F218C97B29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D84371CE-5127-4022-9A7C-52F218C97B29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D84371CE-5127-4022-9A7C-52F218C97B29}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

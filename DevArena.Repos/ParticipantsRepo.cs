@@ -4,10 +4,12 @@ using System.Linq;
 using DevArena.Data;
 using DevArena.Entities;
 using DevArena.Shared;
-
+//need to work here to make sure that the repo is working with the correct entity and that the properties
+//are mapped correctly in the Save method. Also, ensure that the validation logic in the Save method is
+//appropriate for the Contests entity, such as checking for unique titles or other relevant fields.
 namespace DevArena.Repos
 {
-    public class ContestsRepo(DevArenaDbContext context, CurrentUserHelper currentUserHelper)
+    public class ParticipantsRepo(DevArenaDbContext context)
     {
         public Result<List<Contests>> GetAll()
         {
@@ -67,7 +69,7 @@ namespace DevArena.Repos
                 objToSave.start_time = model.start_time;
                 objToSave.end_time = model.end_time;
                 objToSave.is_active = model.is_active;
-                objToSave.host_id = currentUserHelper.UserId; // Set this to the appropriate host_id based on your application logic
+                objToSave.host_id = 1; // Set this to the appropriate host_id based on your application logic
 
 
                 context.SaveChanges();
