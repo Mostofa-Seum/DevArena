@@ -27,5 +27,10 @@ namespace DevArena.Web.Controllers
             }
             return View(result.Data);
         }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
     }
 }
