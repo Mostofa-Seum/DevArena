@@ -1,0 +1,23 @@
+﻿@model List<DevArena.Entities.Contests>
+<div>
+	<h1>Contests</h1>
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th scope="col">Name</th>
+				<th scope="col">Start Date</th>
+				<th scope="col">End Date</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var contest in Model)
+			{
+				<tr>
+					<td>@contest.title</td>
+					<td>@contest.start_time.ToString("yyyy-MM-dd")</td>
+					<td>@contest.end_time.ToString("yyyy-MM-dd")</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>

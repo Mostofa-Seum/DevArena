@@ -7,9 +7,19 @@ namespace DevArena.Web.Controllers
     public class Contests(ContestsRepo contestsRepo) : Controller
     {
 
-        public IActionResult Index()
+        public IActionResult IsActive()
         {
-            var result =  contestsRepo.GetAll();
+            var result =  contestsRepo.GetActive();
+            if (result.HasError)
+            {
+                ViewBag.ErrorMessage = result.Message;
+                return View();
+            }
+            return View(result.Data);
+        }
+        public IActionResult IsInActive()
+        {
+            var result =  contestsRepo.GetInActive();
             if (result.HasError)
             {
                 ViewBag.ErrorMessage = result.Message;

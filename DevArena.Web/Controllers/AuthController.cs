@@ -23,7 +23,7 @@ public class AuthController(DevArenaDbContext context) : Controller
         string userId = null;
         string userName = null;
 
-        // 1. Check if the user is an Admin
+        // Check if the user is an Admin
         var admin = context.Admins.FirstOrDefault(a => a.email == model.email && a.password == model.password);
         if (admin != null)
         {
@@ -33,7 +33,7 @@ public class AuthController(DevArenaDbContext context) : Controller
         }
         else
         {
-            // 2. Check if the user is a Host
+            // Check if the user is a Host
             var host = context.Hosts.FirstOrDefault(h => h.email == model.email && h.password == model.password);
             if (host != null)
             {
@@ -43,7 +43,7 @@ public class AuthController(DevArenaDbContext context) : Controller
             }
             else
             {
-                // 3. Check if the user is a Participant
+                // Check if the user is a Participant
                 var participant = context.Participants.FirstOrDefault(p => p.email == model.email && p.password == model.password);
                 if (participant != null)
                 {
@@ -54,20 +54,20 @@ public class AuthController(DevArenaDbContext context) : Controller
             }
         }
 
-        // 4. If no match was found in any table, authentication fails
+        // If no match was found in any table, authentication fails
         if (role == null)
         {
-            ViewBag.ErrorMessage = "Invalid email or password.";
+            ViewBag.Error = "Invalid email or password.";
             return View(model);
         }
 
-        // 5. Create the user's identity claims
+        // Create the user's identity claims
         var claims = new List<Claim>
         {
             new Claim(ClaimTypes.NameIdentifier, userId),
             new Claim(ClaimTypes.Name, userName),
             new Claim(ClaimTypes.Email, model.email),
-            new Claim(ClaimTypes.Role, role) // This is where the Role is assigned!
+            new Claim(ClaimTypes.Role, role) 
         };
 
         // *Optional Logic for Judges*
@@ -87,12 +87,11 @@ public class AuthController(DevArenaDbContext context) : Controller
 
         var principal = new ClaimsPrincipal(identity);
 
-        // 6. Issue the authentication cookie
         await HttpContext.SignInAsync("DAAuth", principal);
 
         // Redirect based on role
         if (role == "Admin") return RedirectToAction("Index", "AdminDashboard");
-        if (role == "Host") return RedirectToAction("Index", "HostDashboard");
+        if (role == "Host") return RedirectToAction("Index", "HostHome");
         if (role == "Participant") return RedirectToAction("Index", "ParticipantDashboard");
 
 
@@ -102,6 +101,6 @@ public class AuthController(DevArenaDbContext context) : Controller
     public async Task<IActionResult> Logout()
     {
         await HttpContext.SignOutAsync("DAAuth");
-        return RedirectToAction("Login");
+        return RedirectToAction("Index","Home");
     }
 }

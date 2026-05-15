@@ -1,4 +1,10 @@
 ﻿@model DevArena.Models.LoginModel
+
+@{
+    ViewData["Title"] = "Login";
+    ViewData["HideNavbar"] = true;
+}
+
 @Html.Partial("_Message")
 <div class="row pt-5">
     <div class="row pt-5">
@@ -27,5 +33,7 @@
 </div>
 
 @section Scripts {
-    @{Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

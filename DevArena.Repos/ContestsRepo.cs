@@ -25,6 +25,40 @@ namespace DevArena.Repos
             return result;
         }
 
+
+        public Result<List<Contests>> GetActive()
+        {
+            var result = new Result<List<Contests>>();
+            try
+            {
+                result.Data = context.Contests.Where(c => c.is_active==true).ToList();
+            }
+            catch (Exception e)
+            {
+                result.HasError = true;
+                result.Message = e.Message;
+            }
+
+            return result;
+        }
+
+        public Result<List<Contests>> GetInActive()
+        {
+            var result = new Result<List<Contests>>();
+            try
+            {
+                result.Data = context.Contests.Where(c => c.is_active == false).ToList();
+            }
+            catch (Exception e)
+            {
+                result.HasError = true;
+                result.Message = e.Message;
+            }
+
+            return result;
+        }
+
+
         public Result<Contests?> GetById(int id)
         {
             var result = new Result<Contests?>();
@@ -67,7 +101,7 @@ namespace DevArena.Repos
                 objToSave.start_time = model.start_time;
                 objToSave.end_time = model.end_time;
                 objToSave.is_active = model.is_active;
-                objToSave.host_id = currentUserHelper.UserId; // Set this to the appropriate host_id based on your application logic
+                objToSave.host_id = currentUserHelper.UserId;
 
 
                 context.SaveChanges();
