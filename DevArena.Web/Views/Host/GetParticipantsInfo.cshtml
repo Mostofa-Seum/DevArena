@@ -1,0 +1,48 @@
+﻿@model List<DevArena.Models.RegistrationModel>
+
+<div class="container mt-4">
+    <h2>Participant Registrations</h2>
+    <hr />
+
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+    }
+
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Contest Name</th>
+                <th>Participant Name</th>
+                <th class="text-center" style="width: 200px;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.ContestName</td>
+                        <td>@item.ParticipantName</td>
+
+                        <td class="text-center">
+                            <a href="#" class="btn btn-warning btn-sm">
+                                <i class="bi bi-star"></i> Promote
+                            </a>
+                            &nbsp; <a href="#" class="btn btn-danger btn-sm">
+                                <i class="bi bi-trash"></i> Remove
+                            </a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="3" class="text-center text-muted">No participants have registered for your contests yet.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
