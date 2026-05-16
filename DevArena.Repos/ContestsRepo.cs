@@ -64,7 +64,7 @@ namespace DevArena.Repos
             var result = new Result<Contests?>();
             try
             {
-                result.Data = context.Contests.FirstOrDefault(c => c.id == id && c.host_id == currentUserHelper.UserId);
+                result.Data = context.Contests.FirstOrDefault(c => c.id == id);
             }
             catch (Exception e)
             {

@@ -58,6 +58,27 @@ namespace DevArena.Web.Controllers
             return View(result.Data);
         }
 
+        [HttpPost]
+        public IActionResult Details(Contests model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var result = contestsRepo.Save(model);
+
+            if (result.HasError)
+            {
+                ViewBag.ErrorMessage = result.Message;
+            }
+            else
+            {
+                if(result.Data != null) TempData["Success"] = $"Contest with ID {result.Data.id} has been successfully saved.";
+                return RedirectToAction("Index");
+            }
+            return View(result.Data);
+        }
+
         public IActionResult Delete(int id)
         {
             var result = contestsRepo.Delete(id);
