@@ -43,13 +43,31 @@ namespace DevArena.Web.Controllers
             return View(result.Data);
         }
 
-        public IActionResult Delete(int dataId)
+        public IActionResult Details(int id)
         {
-            var result = contestsRepo.Delete(dataId);
+            if(id == -1)
+            {
+                return View (new Contests());
+            }
+            var result = contestsRepo.GetById(id);
             if (result.HasError)
             {
-                ViewBag.ErrorMessage = result.Message;
-                return View();
+                TempData["Error"] = result.Message;
+                return RedirectToAction("Index");
+            }
+            return View(result.Data);
+        }
+
+        public IActionResult Delete(int id)
+        {
+            var result = contestsRepo.Delete(id);
+            if (result.HasError)
+            {
+                TempData["Error"] = result.Message;
+            }
+            else
+            {
+                TempData["Success"] = $"Contest with ID {id} has been successfully deleted.";
             }
             return RedirectToAction("Index");
         }

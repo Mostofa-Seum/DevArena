@@ -1,0 +1,67 @@
+﻿@model DevArena.Entities.Contests
+@Html.Partial("_Message")
+
+<div class="container border mt-4 p-4">
+    <div class="row">
+        <div class="col-12">
+            @if (Model.id == 0)
+            {
+                <h2>Add New Contest</h2>
+            }
+            else
+            {
+                <h2>Contest #@Model.id</h2>
+            }
+        </div>
+    </div>
+    <hr />
+
+    <form method="post" action="#">
+        <input type="hidden" asp-for="id" />
+
+        <div class="row mb-3">
+            <div class="col-12">
+                <label asp-for="title" class="form-label"></label>
+                <input asp-for="title" class="form-control" />
+                <span asp-validation-for="title" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-12">
+                <label asp-for="start_time" class="form-label"></label>
+                <input asp-for="start_time" class="form-control" type="datetime-local" />
+                <span asp-validation-for="start_time" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-12">
+                <label asp-for="end_time" class="form-label"></label>
+                <input asp-for="end_time" class="form-control" type="datetime-local" />
+                <span asp-validation-for="end_time" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-12">
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" asp-for="is_active" />
+                    <label class="form-check-label" asp-for="is_active"></label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-save"></i> &nbsp; Save
+                </button>
+                &nbsp;
+                <a asp-action="Index" asp-controller="Contests" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left-circle-fill"></i> &nbsp;Back To List
+                </a>
+            </div>
+        </div>
+    </form>
+</div>
