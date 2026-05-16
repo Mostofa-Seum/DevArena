@@ -52,6 +52,18 @@
                                     <a class="nav-link" asp-controller="Contests" asp-action="Index">Manage My Contest</a>
                                 </li>
                             }
+                            else if(User.IsInRole("Judge"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-info" asp-controller="JudgeDashboard" asp-action="Index">Judge Dashboard</a>
+                                </li>
+                            }
+                            else if (User.IsInRole("Participant"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-info" asp-controller="ParticipantDashboard" asp-action="Index">Participant Dashboard</a>
+                                </li>
+							}
                         </ul>
 
                         <ul class="navbar-nav ms-auto">

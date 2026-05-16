@@ -92,7 +92,7 @@ public class AuthController(DevArenaDbContext context) : Controller
         // Redirect based on role
         if (role == "Admin") return RedirectToAction("Index", "AdminDashboard");
         if (role == "Host") return RedirectToAction("Index", "HostHome");
-        if (role == "Participant") return RedirectToAction("Index", "ParticipantDashboard");
+        if (role == "Participant") return RedirectToAction("Index", "ParticipantHome");
 
 
         return RedirectToAction("Index", "Home");

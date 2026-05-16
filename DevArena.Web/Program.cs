@@ -12,6 +12,7 @@ builder.Services.AddDbContext<DevArenaDbContext>(opt =>
 builder.Services.AddScoped<ContestsRepo>();
 builder.Services.AddScoped<HostRepo>();
 builder.Services.AddScoped<ParticipantsRepo>();
+builder.Services.AddScoped<ContestRegistrationRepo>();
 builder.Services.AddScoped<CurrentUserHelper>();
 builder.Services.AddHttpContextAccessor();
 
