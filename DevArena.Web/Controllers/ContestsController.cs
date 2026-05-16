@@ -8,7 +8,7 @@ using System;
 
 namespace DevArena.Web.Controllers
 {
-    public class ContestsController(ContestsRepo contestsRepo, CurrentUserHelper currentUserHelper) : Controller
+    public class ContestsController(ContestsRepo contestsRepo, CurrentUserHelper currentUserHelper, ContestRegistrationRepo regRepo) : Controller
     {
         private readonly CurrentUserHelper _currentUserHelper = currentUserHelper;
 
@@ -18,8 +18,22 @@ namespace DevArena.Web.Controllers
             if (result.HasError)
             {
                 ViewBag.ErrorMessage = result.Message;
-                return View();
+                return View(new List<Contests>());
             }
+
+            ViewBag.RegisteredContests = new List<int>();
+
+
+            if (User.IsInRole("Participant"))
+            {
+                var registrationResult = regRepo.GetRegisteredContestIds();
+
+                if (!registrationResult.HasError && registrationResult.Data != null)
+                {
+                    ViewBag.RegisteredContests = registrationResult.Data;
+                }
+            }
+
             return View(result.Data);
         }
 
@@ -116,5 +130,7 @@ namespace DevArena.Web.Controllers
             }
             return RedirectToAction("Index");
         }
+
+
     }
 }

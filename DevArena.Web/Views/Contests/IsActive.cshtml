@@ -1,7 +1,6 @@
 ﻿@model List<DevArena.Entities.Contests>
 
 @{
-    // Retrieve the list of joined contests from the ViewBag (defaults to empty if not a participant)
     var registeredContests = ViewBag.RegisteredContests as List<int> ?? new List<int>();
 }
 
@@ -29,14 +28,14 @@
                             @if (registeredContests.Contains(contest.id))
                             {
                                 // If they already joined, show Leave button
-                                <a class="btn btn-danger btn-sm" asp-controller="Contests" asp-action="Leave" asp-route-id="@contest.id">
+                                <a class="btn btn-danger btn-sm" asp-controller="ContestRegistration" asp-action="LeaveContest" asp-route-id="@contest.id">
                                     <i class="bi bi-box-arrow-right"></i> Leave
                                 </a>
                             }
                             else
                             {
                                 // If they haven't joined, show Join button
-                                <a class="btn btn-success btn-sm" asp-controller="Contests" asp-action="Join" asp-route-id="@contest.id">
+                                <a class="btn btn-success btn-sm" asp-controller="ContestRegistration" asp-action="JoinContest" asp-route-id="@contest.id">
                                     <i class="bi bi-box-arrow-in-right"></i> Join
                                 </a>
                             }
