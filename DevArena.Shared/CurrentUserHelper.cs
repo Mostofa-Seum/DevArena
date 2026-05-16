@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -29,8 +30,9 @@ namespace DevArena.Shared
             {
                 try
                 {
-                    var id = accessor.HttpContext?.User?.FindFirst("UserID").Value;
-                    return id!=null ? int.Parse(id) : -1;
+                    var claim = accessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier);
+
+                    return claim != null ? int.Parse(claim.Value) : -1;
                 }
                 catch (Exception e)
                 {

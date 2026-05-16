@@ -64,7 +64,7 @@ namespace DevArena.Repos
             var result = new Result<Contests?>();
             try
             {
-                result.Data = context.Contests.FirstOrDefault(c => c.id == id);
+                result.Data = context.Contests.FirstOrDefault(c => c.id == id && c.host_id == currentUserHelper.UserId);
             }
             catch (Exception e)
             {
@@ -80,7 +80,7 @@ namespace DevArena.Repos
             var result = new Result<Contests>();
             try
             {
-                // Adjust 'title' if your Contests entity uses a different property for validation
+                
                 if (context.Contests.Any(c => c.title == model.title && c.id != model.id))
                 {
                     result.HasError = true;
@@ -136,6 +136,25 @@ namespace DevArena.Repos
                 result.HasError = true;
                 result.Message = e.Message;
             }
+            return result;
+        }
+
+        public Result<List<Contests>> GetAllByCurrentHost()
+        {
+            var result = new Result<List<Contests>>();
+            try
+            {
+                
+                result.Data = context.Contests
+                    .Where(c => c.host_id == currentUserHelper.UserId)
+                    .ToList();
+            }
+            catch (Exception e)
+            {
+                result.HasError = true;
+                result.Message = e.Message;
+            }
+
             return result;
         }
     }
