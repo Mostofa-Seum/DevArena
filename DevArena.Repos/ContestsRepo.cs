@@ -64,7 +64,7 @@ namespace DevArena.Repos
             var result = new Result<Contests?>();
             try
             {
-                result.Data = context.Contests.FirstOrDefault(c => c.id == id);
+                result.Data = context.Contests.FirstOrDefault(c => c.id == id && c.host_id == currentUserHelper.UserId);
             }
             catch (Exception e)
             {
@@ -101,8 +101,16 @@ namespace DevArena.Repos
                 objToSave.start_time = model.start_time;
                 objToSave.end_time = model.end_time;
                 objToSave.is_active = model.is_active;
-                objToSave.host_id = currentUserHelper.UserId;
 
+                // ADD THIS SAFETY CHECK:
+                int hostId = currentUserHelper.UserId;
+                if (hostId <= 0)
+                {
+                    result.HasError = true;
+                    result.Message = "Authentication error: Could not verify Host identity. Please log in again.";
+                    return result;
+                }
+                objToSave.host_id = hostId;
 
                 context.SaveChanges();
                 result.Data = objToSave;

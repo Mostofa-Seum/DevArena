@@ -3,11 +3,14 @@ using DevArena.Entities;
 using DevArena.Repos;
 using DevArena.Shared;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+using System;
 
 namespace DevArena.Web.Controllers
 {
-    public class ContestsController(ContestsRepo contestsRepo) : Controller
+    public class ContestsController(ContestsRepo contestsRepo, CurrentUserHelper currentUserHelper) : Controller
     {
+        private readonly CurrentUserHelper _currentUserHelper = currentUserHelper;
 
         public IActionResult IsActive()
         {
@@ -19,6 +22,7 @@ namespace DevArena.Web.Controllers
             }
             return View(result.Data);
         }
+
         public IActionResult IsInActive()
         {
             var result = contestsRepo.GetInActive();
@@ -32,7 +36,6 @@ namespace DevArena.Web.Controllers
 
         public IActionResult Index()
         {
-
             var result = contestsRepo.GetAllByCurrentHost();
 
             if (result.HasError)
@@ -45,10 +48,18 @@ namespace DevArena.Web.Controllers
 
         public IActionResult Details(int id)
         {
-            if(id == -1)
+            if (id == -1)
             {
-                return View (new Contests());
+                // Provide safe defaults for new contests to avoid DB range errors
+                var newContest = new Contests
+                {
+                    start_time = DateTime.UtcNow,
+                    end_time = DateTime.UtcNow.AddHours(2),
+                    is_active = true
+                };
+                return View(newContest);
             }
+
             var result = contestsRepo.GetById(id);
             if (result.HasError)
             {
@@ -61,22 +72,35 @@ namespace DevArena.Web.Controllers
         [HttpPost]
         public IActionResult Details(Contests model)
         {
+            model.host_id = _currentUserHelper.UserId;
+            if (model.start_time == default(DateTime) || model.start_time == DateTime.MinValue)
+            {
+                model.start_time = DateTime.UtcNow;
+            }
+            if (model.end_time == default(DateTime) || model.end_time == DateTime.MinValue)
+            {
+                model.end_time = model.start_time.AddHours(2);
+            }
+
+            ModelState.Remove("Hosts");
+            ModelState.Remove("host_id");
+
             if (!ModelState.IsValid)
             {
+
                 return View(model);
             }
+
             var result = contestsRepo.Save(model);
 
             if (result.HasError)
             {
                 ViewBag.ErrorMessage = result.Message;
+                return View(model);
             }
-            else
-            {
-                if(result.Data != null) TempData["Success"] = $"Contest with ID {result.Data.id} has been successfully saved.";
-                return RedirectToAction("Index");
-            }
-            return View(result.Data);
+
+            if (result.Data != null) TempData["Success"] = $"Contest with ID {result.Data.id} has been successfully saved.";
+            return RedirectToAction("Index");
         }
 
         public IActionResult Delete(int id)

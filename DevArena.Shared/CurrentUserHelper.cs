@@ -18,7 +18,7 @@ namespace DevArena.Shared
                 {
                     return (bool)accessor.HttpContext?.User?.Identity?.IsAuthenticated;
                 }
-                catch(Exception e)
+                catch(Exception)
                 {
                     return false;
                 }
@@ -31,10 +31,9 @@ namespace DevArena.Shared
                 try
                 {
                     var claim = accessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier);
-
                     return claim != null ? int.Parse(claim.Value) : -1;
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     return -1;
                 }
