@@ -194,12 +194,31 @@ namespace DevArena.Repos
         {
             try
             {
-                bool isAlreadyJudge = context.Judges.Any(j => j.participant_id == participantId && j.contest_id == contestId);
-                if (isAlreadyJudge)
+                // Check if a judge record already exists for this participant & contest
+                var existingJudge = context.Judges
+                    .FirstOrDefault(j => j.participant_id == participantId && j.contest_id == contestId);
+
+                if (existingJudge != null)
                 {
-                    return Result<bool>.Failure("This participant is already a judge for this contest.");
+                    if (existingJudge.Is_active)
+                    {
+                        // They are already an active judge, no action needed
+                        return Result<bool>.Failure("This participant is already an active judge for this contest.");
+                    }
+                    else
+                    {
+                        // They exist but are inactive. Reactivate them!
+                        existingJudge.Is_active = true;
+                        existingJudge.promoted_by_host_id = hostId; // Update who promoted them
+
+                        context.Judges.Update(existingJudge);
+                        context.SaveChanges();
+
+                        return Result<bool>.Success(true);
+                    }
                 }
 
+                // If they don't exist at all, create a brand new judge record
                 var newJudge = new Judge
                 {
                     participant_id = participantId,
@@ -216,7 +235,8 @@ namespace DevArena.Repos
             }
             catch (Exception ex)
             {
-                return Result<bool>.Failure($"Failed to promote to judge: {ex.Message}");
+                // If the database throws an error (like a foreign key issue), we catch it here
+                return Result<bool>.Failure($"Failed to promote to judge: {ex.InnerException?.Message ?? ex.Message}");
             }
         }
 
