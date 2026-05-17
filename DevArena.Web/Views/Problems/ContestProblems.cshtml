@@ -1,0 +1,46 @@
+﻿@model IEnumerable<DevArena.Entities.Problems>
+
+@{
+    ViewData["Title"] = "Contest Problems";
+}
+
+<div class="container mt-4">
+    <h2>Problems for Contest</h2>
+
+    <table class="table table-bordered table-striped mt-3">
+        <thead class="table-dark">
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Input Format</th>
+                <th>Output Format</th>
+                <th class="text-center">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var problem in Model)
+                {
+                    <tr>
+                        <td>@problem.title</td>
+                        <td>@problem.description</td>
+                        <td>@problem.input_format</td>
+                        <td>@problem.output_format</td>
+                        <td class="text-center align-middle">
+                            <a asp-controller="Problems" asp-action="Solve" asp-route-id="@problem.problem_id" class="btn btn-success btn-sm">
+                                <i class="bi bi-code-square"></i> Solve
+                            </a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="5" class="text-center text-muted py-4">No problems have been added to this contest yet.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
