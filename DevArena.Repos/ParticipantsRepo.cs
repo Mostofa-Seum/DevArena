@@ -4,9 +4,6 @@ using System.Linq;
 using DevArena.Data;
 using DevArena.Entities;
 using DevArena.Shared;
-//need to work here to make sure that the repo is working with the correct entity and that the properties
-//are mapped correctly in the Save method. Also, ensure that the validation logic in the Save method is
-//appropriate for the Contests entity, such as checking for unique titles or other relevant fields.
 namespace DevArena.Repos
 {
     public class ParticipantsRepo(DevArenaDbContext context)
