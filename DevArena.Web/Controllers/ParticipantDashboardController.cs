@@ -19,6 +19,8 @@ namespace DevArena.Web.Controllers
 
         // 1. Show the Dashboard
         [HttpGet]
+        // 1. Show the Dashboard
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var userEmail = User.FindFirstValue(ClaimTypes.Email);
@@ -28,6 +30,17 @@ namespace DevArena.Web.Controllers
             {
                 return RedirectToAction("Login", "Auth");
             }
+
+            // Fetch the participant's submissions, including the related Contest and Problem data
+            var submissions = await _context.Submissions
+                .Include(s => s.Contest)
+                .Include(s => s.Problem)
+                .Where(s => s.participant_id == participant.id)
+                .OrderByDescending(s => s.submitted_at) // Show latest submissions first
+                .ToListAsync();
+
+            // Pass the submissions to the view using ViewBag
+            ViewBag.Submissions = submissions;
 
             return View(participant);
         }
