@@ -1,10 +1,11 @@
-﻿using System;
+﻿using DevArena.Data;
+using DevArena.Entities;
+using DevArena.Models;
+using DevArena.Shared;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using DevArena.Data;
-using DevArena.Entities;
-using DevArena.Shared;
-using DevArena.Models;
 
 namespace DevArena.Repos
 {
@@ -135,20 +136,23 @@ namespace DevArena.Repos
             var result = new Result<List<RegistrationModel>>();
             try
             {
-                // We use LINQ to JOIN the three tables together based on their IDs
                 result.Data = (from e in context.ContestRegistrations
                                join c in context.Contests on e.contest_id equals c.id
                                join p in context.Participants on e.participant_id equals p.id
-                               // Only get active registrations for contests owned by this specific host
                                where c.host_id == hostId && e.is_active == true
+
+                               // Check if the participant exists in the Judges table using their email
+                               let isJudge = context.Judges.Any(j => j.participant_id == p.id && j.contest_id == c.id && j.Is_active == true)
+
                                select new RegistrationModel
                                {
-                                   ContestId = c.id,          
+                                   ContestId = c.id,
                                    ParticipantId = p.id,
                                    ContestName = c.title,
                                    ParticipantName = p.name,
-                                   ParticipantEmail = p.email
-
+                                   ParticipantEmail = p.email,
+                                   // Set the Role based on the check above
+                                   Role = isJudge ? "Judge" : "Participant"
                                }).ToList();
             }
             catch (Exception e)
@@ -186,56 +190,58 @@ namespace DevArena.Repos
             return result;
         }
 
-        public Result<bool> Promote(int contestId, int participantId)
+        public Result<bool> PromoteToJudge(int participantId, int contestId, int hostId)
         {
-            var result = new Result<bool>();
             try
             {
-                var participant = context.Participants.Find(participantId);
-
-                if (participant == null)
+                bool isAlreadyJudge = context.Judges.Any(j => j.participant_id == participantId && j.contest_id == contestId);
+                if (isAlreadyJudge)
                 {
-                    result.HasError = true;
-                    result.Message = "Participant not found.";
-                    return result;
+                    return Result<bool>.Failure("This participant is already a judge for this contest.");
                 }
 
-                bool alreadyJudge = context.Judges.Any(j => j.email == participant.email);
-
-                if (!alreadyJudge)
+                var newJudge = new Judge
                 {
-                    // 3. Create the new Judge using the Participant's exact details
-                    var newJudge = new Judge
-                    {
-                        name = participant.name,
-                        email = participant.email,
-                        password = participant.password, // Keep the same login password
-                        is_active = true,
-                        created_at = DateTime.UtcNow
-                    };
-                    context.Judges.Add(newJudge);
-                }
+                    participant_id = participantId,
+                    contest_id = contestId,
+                    promoted_by_host_id = hostId,
+                    Is_active = true,
+                    created_at = DateTime.UtcNow
+                };
 
-                // 4. (Optional but recommended) Remove them from this contest's participants list 
-                // since they are now a Judge and shouldn't be competing!
-                var registration = context.ContestRegistrations
-                    .FirstOrDefault(cr => cr.contest_id == contestId && cr.participant_id == participantId);
-
-                if (registration != null)
-                {
-                    context.ContestRegistrations.Remove(registration);
-                }
-
-                // 5. Save all changes to the database at once
+                context.Judges.Add(newJudge);
                 context.SaveChanges();
-                result.Data = true;
+
+                return Result<bool>.Success(true);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                result.HasError = true;
-                result.Message = e.Message;
+                return Result<bool>.Failure($"Failed to promote to judge: {ex.Message}");
             }
-            return result;
+        }
+
+        public Result<bool> DeactivateParticipant(int participantId, int contestId)
+        {
+            try
+            {
+                var registration = context.ContestRegistrations
+                    .FirstOrDefault(cr => cr.participant_id == participantId && cr.contest_id == contestId);
+
+                if (registration == null)
+                {
+                    return Result<bool>.Failure("Registration not found.");
+                }
+                registration.is_active = false;
+
+                context.ContestRegistrations.Update(registration);
+                context.SaveChanges();
+
+                return Result<bool>.Success(true);
+            }
+            catch (Exception ex)
+            {
+                return Result<bool>.Failure($"Failed to remove participant: {ex.Message}");
+            }
         }
     }
 }

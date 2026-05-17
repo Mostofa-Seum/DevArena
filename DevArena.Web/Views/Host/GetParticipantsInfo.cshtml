@@ -4,17 +4,13 @@
     <h2>Participant Registrations</h2>
     <hr />
 
-    @if (ViewBag.ErrorMessage != null)
-    {
-        <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
-    }
-
     <table class="table table-bordered table-hover">
         <thead class="table-dark">
             <tr>
                 <th>Contest Name</th>
                 <th>Participant Name</th>
-                <th class="text-center" style="width: 200px;">Actions</th>
+                <th>Role</th>
+                <th class="text-center" style="width: 250px;">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -23,16 +19,38 @@
                 foreach (var item in Model)
                 {
                     <tr>
-                        <td>@item.ContestName</td>
-                        <td>@item.ParticipantName</td>
-
+                        <td class="align-middle">@item.ContestName</td>
+                        <td class="align-middle">@item.ParticipantName</td>
+                        <td class="align-middle">
+                            @if (item.Role == "Judge")
+                            {
+                                <span class="badge bg-success">Judge</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">Participant</span>
+                            }
+                        </td>
                         <td class="text-center">
-                            <a href="#" class="btn btn-warning btn-sm">
-                                <i class="bi bi-star"></i> Promote
-                            </a>
-                            &nbsp; <a href="#" class="btn btn-danger btn-sm">
-                                <i class="bi bi-trash"></i> Remove
-                            </a>
+
+                            <form asp-action="Promote" asp-controller="Host" method="post" class="d-inline">
+                                <input type="hidden" name="participantId" value="@item.ParticipantId" />
+                                <input type="hidden" name="contestId" value="@item.ContestId" />
+                                <button type="submit" class="btn btn-warning btn-sm">
+                                    <i class="bi bi-star"></i> Promote
+                                </button>
+                            </form>
+
+                            &nbsp;
+
+                            <form asp-action="Remove" asp-controller="Host" method="post" class="d-inline" onsubmit="return confirm('Are you sure you want to remove this participant?');">
+                                <input type="hidden" name="participantId" value="@item.ParticipantId" />
+                                <input type="hidden" name="contestId" value="@item.ContestId" />
+                                <button type="submit" class="btn btn-danger btn-sm">
+                                    <i class="bi bi-trash"></i> Remove
+                                </button>
+                            </form>
+
                         </td>
                     </tr>
                 }
@@ -40,7 +58,7 @@
             else
             {
                 <tr>
-                    <td colspan="3" class="text-center text-muted">No participants have registered for your contests yet.</td>
+                    <td colspan="4" class="text-center text-muted">No participants have registered for your contests yet.</td>
                 </tr>
             }
         </tbody>
