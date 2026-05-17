@@ -1,0 +1,67 @@
+﻿@model DevArena.Web.Models.JudgeApi.AddProblemRequest
+
+@{
+    ViewData["Title"] = "Add Problem";
+    Layout = "~/Views/Shared/_JudgeLayout.cshtml";
+
+    int contestId = ViewBag.ContestId;
+}
+
+<div class="container mt-4">
+
+    <a asp-controller="JudgeContest"
+       asp-action="Details"
+       asp-route-contestId="@contestId"
+       class="btn btn-outline-secondary mb-3">
+        &larr; Back to Contest
+    </a>
+
+    <h2>Add Problem</h2>
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger">
+            @ViewBag.Error
+        </div>
+    }
+
+    <form asp-controller="JudgeContest"
+          asp-action="AddProblem"
+          asp-route-contestId="@contestId"
+          method="post">
+
+        <div class="mb-3">
+            <label asp-for="Title" class="form-label">Title</label>
+            <input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Description" class="form-label">Description</label>
+            <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="InputFormat" class="form-label">Input Format</label>
+            <textarea asp-for="InputFormat" class="form-control" rows="3"></textarea>
+            <span asp-validation-for="InputFormat" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="OutputFormat" class="form-label">Output Format</label>
+            <textarea asp-for="OutputFormat" class="form-control" rows="3"></textarea>
+            <span asp-validation-for="OutputFormat" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-success">
+            Save Problem
+        </button>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

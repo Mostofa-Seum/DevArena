@@ -1,0 +1,143 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>@ViewData["Title"] - DevArena Judge</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+    <style>
+        .judge-navbar {
+            background-color: #2f363d;
+            padding: 14px 30px;
+        }
+
+            .judge-navbar .navbar-brand {
+                color: white;
+                font-weight: 700;
+                letter-spacing: 1px;
+            }
+
+            .judge-navbar .nav-link {
+                color: #f8f9fa !important;
+                font-weight: 600;
+                letter-spacing: 1px;
+                margin-right: 20px;
+            }
+
+                .judge-navbar .nav-link:hover {
+                    color: #0d6efd !important;
+                }
+
+        .judge-user {
+            color: #f8f9fa;
+            margin-right: 15px;
+            font-weight: 500;
+        }
+
+        .judge-footer {
+            margin-top: 50px;
+            padding: 15px 0;
+            border-top: 1px solid #ddd;
+            color: #6c757d;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark judge-navbar">
+            <div class="container-fluid">
+
+                <a class="navbar-brand"
+                   asp-controller="JudgeDashboard"
+                   asp-action="Index">
+                    DevArena Judge
+                </a>
+
+                <button class="navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#judgeNavbar"
+                        aria-controls="judgeNavbar"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
+
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="judgeNavbar">
+
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               asp-controller="Home"
+                               asp-action="Index">
+                                HOME
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               asp-controller="JudgeDashboard"
+                               asp-action="Index">
+                                JUDGE DASHBOARD
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               asp-controller="JudgeDashboard"
+                               asp-action="Profile">
+                                PROFILE
+                            </a>
+                        </li>
+
+                    </ul>
+
+                    <ul class="navbar-nav ms-auto align-items-center">
+
+                        @if (User.Identity != null && User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <span class="judge-user">
+                                    @User.Identity.Name
+                                </span>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link"
+                                   asp-controller="Auth"
+                                   asp-action="Logout">
+                                    LOGOUT
+                                </a>
+                            </li>
+                        }
+
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main role="main" class="pb-3">
+        @RenderBody()
+    </main>
+
+    <footer class="judge-footer">
+        <div class="container">
+            &copy; @DateTime.Now.Year - DevArena Judge Panel
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

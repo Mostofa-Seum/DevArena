@@ -7,12 +7,13 @@ namespace DevArena.Models
     {
         [Required]
         [EmailAddress]
-        public string email { get; set; } = null!; 
+        public string email { get; set; } = null!;
+
         [Required]
-        [DataType(DataType.Password )]
+        [DataType(DataType.Password)]
         public string password { get; set; } = null!;
 
-        [DisplayName("Login as Judge")]
+        [DisplayName("Sign in as Judge")]
         public bool IsJudgeLogin { get; set; }
     }
 }

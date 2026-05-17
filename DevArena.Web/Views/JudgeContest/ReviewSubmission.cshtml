@@ -1,0 +1,84 @@
+﻿@model DevArena.Web.Models.JudgeApi.JudgeSubmissionDto
+
+@{
+    ViewData["Title"] = "Review Submission";
+    Layout = "~/Views/Shared/_JudgeLayout.cshtml";
+}
+
+<div class="container mt-4">
+
+    <a asp-controller="JudgeContest"
+       asp-action="Details"
+       asp-route-contestId="@Model.contest_id"
+       class="btn btn-outline-secondary mb-3">
+        &larr; Back to Contest
+    </a>
+
+    <h2>Review Submission</h2>
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["Error"]
+        </div>
+    }
+
+    <div class="card mb-4">
+        <div class="card-header bg-dark text-white">
+            Submission Information
+        </div>
+
+        <div class="card-body">
+            <p><strong>Participant:</strong> @Model.participantName</p>
+            <p><strong>Contest:</strong> @Model.contestTitle</p>
+            <p><strong>Problem:</strong> @Model.problemTitle</p>
+            <p>
+                <strong>Current Status:</strong>
+                @if (Model.status == "Accepted")
+                {
+                    <span class="badge bg-success">Accepted</span>
+                }
+                else if (Model.status == "Rejected")
+                {
+                    <span class="badge bg-danger">Rejected</span>
+                }
+                else
+                {
+                    <span class="badge bg-warning text-dark">@Model.status</span>
+                }
+            </p>
+            <p><strong>Submitted At:</strong> @Model.submitted_at.ToString("dd MMM yyyy, hh:mm tt")</p>
+        </div>
+    </div>
+
+    <h5>Submitted Code</h5>
+
+    <pre class="bg-light border p-3 rounded">@Model.code_text</pre>
+
+    <form asp-controller="JudgeContest"
+          asp-action="ReviewSubmission"
+          asp-route-submissionId="@Model.id"
+          method="post">
+
+        <div class="mb-3">
+            <label class="form-label">Verdict</label>
+            <select name="verdict" class="form-select" required>
+                <option value="">-- Select Verdict --</option>
+                <option value="Accepted">Accepted</option>
+                <option value="Rejected">Rejected</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Feedback</label>
+            <textarea name="feedback"
+                      class="form-control"
+                      rows="4"
+                      placeholder="Write feedback for the participant"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            Submit Review
+        </button>
+    </form>
+</div>

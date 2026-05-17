@@ -1,0 +1,139 @@
+﻿@model DevArena.Web.Models.JudgeApi.ContestDetailsResponse
+
+@{
+    ViewData["Title"] = "Contest Details";
+    Layout = "~/Views/Shared/_JudgeLayout.cshtml";
+
+    var submissions = ViewBag.Submissions as List<DevArena.Web.Models.JudgeApi.JudgeSubmissionDto>;
+}
+
+<div class="container mt-4">
+
+    <a asp-controller="JudgeDashboard"
+       asp-action="Index"
+       class="btn btn-outline-secondary mb-3">
+        &larr; Back to Dashboard
+    </a>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Success"]
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["Error"]
+        </div>
+    }
+
+    <h2>@Model.contest.title</h2>
+
+    <p class="text-muted">
+        Start: @Model.contest.start_time.ToString("dd MMM yyyy, hh:mm tt") |
+        End: @Model.contest.end_time.ToString("dd MMM yyyy, hh:mm tt")
+    </p>
+
+    <a asp-controller="JudgeContest"
+       asp-action="AddProblem"
+       asp-route-contestId="@Model.contest.id"
+       class="btn btn-success mb-4">
+        Add Problem
+    </a>
+
+    <hr />
+
+    <h4>Problems</h4>
+
+    @if (Model.problems == null || !Model.problems.Any())
+    {
+        <div class="alert alert-info">
+            No problems added yet.
+        </div>
+    }
+    else
+    {
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Input Format</th>
+                    <th>Output Format</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var problem in Model.problems)
+                {
+                    <tr>
+                        <td>@problem.title</td>
+                        <td>@problem.description</td>
+                        <td>@problem.input_format</td>
+                        <td>@problem.output_format</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+    <hr />
+
+    <h4>Submissions</h4>
+
+    @if (submissions == null || !submissions.Any())
+    {
+        <div class="alert alert-info">
+            No submissions found.
+        </div>
+    }
+    else
+    {
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Participant</th>
+                    <th>Problem</th>
+                    <th>Status</th>
+                    <th>Submitted At</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var submission in submissions)
+                {
+                    <tr>
+                        <td>@submission.participantName</td>
+                        <td>@submission.problemTitle</td>
+                        <td>
+                            @if (submission.status == "Accepted")
+                            {
+                                <span class="badge bg-success">Accepted</span>
+                            }
+                            else if (submission.status == "Rejected")
+                            {
+                                <span class="badge bg-danger">Rejected</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-warning text-dark">@submission.status</span>
+                            }
+                        </td>
+                        <td>@submission.submitted_at.ToString("dd MMM yyyy, hh:mm tt")</td>
+                        <td>
+                            <a asp-controller="JudgeContest"
+                               asp-action="ReviewSubmission"
+                               asp-route-submissionId="@submission.id"
+                               class="btn btn-warning btn-sm">
+                                Review
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

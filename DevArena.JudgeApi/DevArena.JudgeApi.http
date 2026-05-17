@@ -1,0 +1,6 @@
+@DevArena.JudgeApi_HostAddress = http://localhost:5091
+
+GET {{DevArena.JudgeApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

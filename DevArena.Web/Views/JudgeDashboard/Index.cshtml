@@ -1,0 +1,75 @@
+﻿@model List<DevArena.Web.Models.JudgeApi.JudgeContestDto>
+
+@{
+    ViewData["Title"] = "Judge Dashboard";
+    Layout = "~/Views/Shared/_JudgeLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>Judge Dashboard</h2>
+
+    <p class="text-muted">
+        Welcome, @ViewBag.JudgeName
+    </p>
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger">
+            @ViewBag.Error
+        </div>
+    }
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Success"]
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["Error"]
+        </div>
+    }
+
+    <hr />
+
+    <h4>Assigned Contests</h4>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info">
+            No contests assigned to you yet.
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var contest in Model)
+            {
+                <div class="col-md-4 mb-3">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">@contest.title</h5>
+
+                            <p class="card-text">
+                                <strong>Start:</strong> @contest.start_time <br />
+                                <strong>End:</strong> @contest.end_time <br />
+                                <strong>Status:</strong>
+                                @(contest.Is_active ? "Active" : "Inactive")
+                            </p>
+
+                            <a asp-controller="JudgeContest"
+                               asp-action="Details"
+                               asp-route-contestId="@contest.id"
+                               class="btn btn-primary">
+                                Open Contest
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

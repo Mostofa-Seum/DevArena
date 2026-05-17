@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevArena.Shared", "DevArena
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevArena.Models", "DevArena.Models\DevArena.Models.csproj", "{D84371CE-5127-4022-9A7C-52F218C97B29}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevArena.JudgeApi", "DevArena.JudgeApi\DevArena.JudgeApi.csproj", "{580D16F7-9E57-4206-B5E2-56E5E4860FE1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{D84371CE-5127-4022-9A7C-52F218C97B29}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D84371CE-5127-4022-9A7C-52F218C97B29}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D84371CE-5127-4022-9A7C-52F218C97B29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{580D16F7-9E57-4206-B5E2-56E5E4860FE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{580D16F7-9E57-4206-B5E2-56E5E4860FE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{580D16F7-9E57-4206-B5E2-56E5E4860FE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{580D16F7-9E57-4206-B5E2-56E5E4860FE1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DevArena.Data\DevArena.Data.csproj" />
+    <ProjectReference Include="..\DevArena.Entities\DevArena.Entities.csproj" />
+    <ProjectReference Include="..\DevArena.Models\DevArena.Models.csproj" />
+    <ProjectReference Include="..\DevArena.Repos\DevArena.Repos.csproj" />
+    <ProjectReference Include="..\DevArena.Shared\DevArena.Shared.csproj" />
+  </ItemGroup>
+
+</Project>
