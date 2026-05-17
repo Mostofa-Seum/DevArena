@@ -50,7 +50,6 @@ namespace DevArena.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Solve(int id)
         {
-            // Fetch the specific problem from the database
             var problem = await context.Problems.FindAsync(id);
 
             if (problem == null)
@@ -58,6 +57,19 @@ namespace DevArena.Web.Controllers
                 TempData["Error"] = "The requested problem could not be found.";
                 return RedirectToAction("Index", "Contests");
             }
+
+            var userEmail = User.FindFirstValue(ClaimTypes.Email);
+            var participant = await context.Participants.FirstOrDefaultAsync(p => p.email == userEmail);
+
+            if (participant == null)
+            {
+                return RedirectToAction("Login", "Auth");
+            }
+
+            bool hasSubmitted = await context.Submissions
+                .AnyAsync(s => s.participant_id == participant.id && s.problem_id == id);
+
+            ViewBag.HasSubmitted = hasSubmitted;
 
             return View(problem);
         }
@@ -71,7 +83,6 @@ namespace DevArena.Web.Controllers
                 return RedirectToAction("Solve", new { id = problem_id });
             }
 
-            // 1. Identify the logged-in participant
             var userEmail = User.FindFirstValue(ClaimTypes.Email);
             var participant = await context.Participants.FirstOrDefaultAsync(p => p.email == userEmail);
 
@@ -81,21 +92,26 @@ namespace DevArena.Web.Controllers
                 return RedirectToAction("Login", "Auth");
             }
 
-            // 2. Create the new Submission record
+            // SECURITY CHECK: Verify they haven't submitted already (in case they refresh the form submission)
+            bool hasSubmitted = await context.Submissions
+                .AnyAsync(s => s.participant_id == participant.id && s.problem_id == problem_id);
+
+            if (hasSubmitted)
+            {
+                TempData["Error"] = "You have already submitted a solution for this problem. Multiple submissions are not allowed.";
+                return RedirectToAction("ContestProblems", new { contestId = contest_id });
+            }
+
             var submission = new DevArena.Entities.Submission
             {
                 participant_id = participant.id,
                 contest_id = contest_id,
                 problem_id = problem_id,
                 code_text = sourceCode,
-                status = "Pending", // Initial status before the Judge reviews it
+                status = "Pending",
                 submitted_at = DateTime.UtcNow
-
-                // Note: 'language' is passed from the view, but your Submission.cs 
-                // doesn't have a language column to save it into right now.
             };
 
-            // 3. Save it to the database
             try
             {
                 context.Submissions.Add(submission);
@@ -103,18 +119,13 @@ namespace DevArena.Web.Controllers
 
                 TempData["Success"] = "Code submitted successfully! Pending judgment...";
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
-                // Catch any database errors
                 TempData["Error"] = "An error occurred while saving your submission. Please try again.";
-                // Optionally log the exception 'ex' here
                 return RedirectToAction("Solve", new { id = problem_id });
             }
 
-            // 4. Redirect the user back to the problems list
             return RedirectToAction("ContestProblems", new { contestId = contest_id });
         }
-
-
     }
 }
