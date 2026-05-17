@@ -2,21 +2,20 @@
 
 @{
     ViewData["Title"] = "Sign Up";
+    ViewData["HideNavbar"] = true;
 }
 
-<div class="container mt-5">
+<div class="container mt-4">
+    <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">
+        &larr; Back to Home
+    </a>
+</div>
+
+<div class="container mt-4">
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="card shadow-sm">
                 <div class="card-body p-5">
-
-                    @if (ViewBag.Error != null)
-                    {
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <strong>@ViewBag.Error</strong>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    }
 
                     <form asp-controller="Auth" asp-action="Signup" method="post">
                         <fieldset>

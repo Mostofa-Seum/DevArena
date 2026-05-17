@@ -5,11 +5,18 @@
     ViewData["HideNavbar"] = true;
 }
 
+<div class="container mt-4">
+    <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">
+        &larr; Back to Home
+    </a>
+</div>
+
 @Html.Partial("_Message")
-<div class="row pt-5">
-    <div class="row pt-5">
-        <div class="col-3"></div>
-        <div class="col-6 border">
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6 border p-4 shadow-sm">
             <h1>Login</h1>
             <hr />
             <form action="#" method="post">
@@ -30,11 +37,16 @@
                 </div>
 
                 <div class="mb-3">
-                    <button type="submit" class="btn btn-primary">Login</button>
+                    <button type="submit" class="btn btn-primary px-4">Login</button>
+                </div>
+
+                <div class="mt-3">
+                    <span class="text-muted">Don't have an account? </span>
+                    <a asp-controller="Auth" asp-action="Signup" class="text-decoration-none">Sign up here</a>
                 </div>
             </form>
         </div>
-        <div class="col-3"></div>
+        <div class="col-md-3"></div>
     </div>
 </div>
 
