@@ -136,4 +136,65 @@ public class AuthController(DevArenaDbContext context) : Controller
         await HttpContext.SignOutAsync("DAAuth");
         return RedirectToAction("Index", "Home");
     }
+
+
+    [HttpGet]
+    public IActionResult Signup()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Signup(SignupModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+        }
+
+        // Check if the email already exists in either table to prevent duplicates
+        bool emailInParticipants = context.Participants.Any(p => p.email == model.Email);
+        bool emailInHosts = context.Hosts.Any(h => h.email == model.Email);
+
+        if (emailInParticipants || emailInHosts)
+        {
+            ViewBag.Error = "This email is already registered.";
+            return View(model);
+        }
+
+        if (model.Role == "Participant")
+        {
+            var participant = new DevArena.Entities.Participants
+            {
+                name = model.Name,
+                email = model.Email,
+                password = model.Password,
+                Is_active = true,
+                created_at = System.DateTime.UtcNow
+            };
+            context.Participants.Add(participant);
+        }
+        else if (model.Role == "Host")
+        {
+            var host = new DevArena.Entities.Host
+            {
+                name = model.Name,
+                email = model.Email,
+                password = model.Password,
+                Is_active = true,
+                created_at = System.DateTime.Now
+            };
+            context.Hosts.Add(host);
+        }
+        else
+        {
+            ViewBag.Error = "Invalid role selected.";
+            return View(model);
+        }
+
+        await context.SaveChangesAsync();
+
+        TempData["Success"] = "Account created successfully! You can now log in.";
+        return RedirectToAction("Login");
+    }
 }
