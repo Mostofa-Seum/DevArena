@@ -93,7 +93,7 @@ namespace DevArena.Repos
                 objToSave.email = model.email;
                 objToSave.password = model.password;
                 objToSave.Is_active = model.Is_active;
-                objToSave.eeated_at = model.eeated_at;
+                objToSave.created_at = model.created_at;
 
 
                 context.SaveChanges();
