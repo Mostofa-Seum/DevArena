@@ -1,0 +1,66 @@
+﻿@model DevArena.Entities.Host
+
+@{
+    ViewData["Title"] = "Host Dashboard";
+}
+
+<div class="container mt-5">
+    <h2 class="mb-4">Host Dashboard</h2>
+
+    <div class="row">
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="bi bi-person-badge"></i> Profile Information</h5>
+                </div>
+                <div class="card-body">
+                    <form asp-controller="HostDashboard" asp-action="UpdateProfile" method="post">
+                        <div class="mb-3">
+                            <label for="name" class="form-label fw-bold">Full Name</label>
+                            <input type="text" class="form-control" id="name" name="name" value="@Model.name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label fw-bold">Email Address</label>
+                            <input type="email" class="form-control" id="email" name="email" value="@Model.email" required>
+                            <div class="form-text text-muted">Note: Changing your email will require you to log in again.</div>
+                        </div>
+                        <div class="text-end mt-4">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-save"></i> Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0"><i class="bi bi-shield-lock"></i> Change Password</h5>
+                </div>
+                <div class="card-body">
+                    <form asp-controller="HostDashboard" asp-action="ChangePassword" method="post">
+                        <div class="mb-3">
+                            <label for="oldPassword" class="form-label fw-bold">Old Password</label>
+                            <input type="password" class="form-control" id="oldPassword" name="oldPassword" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="newPassword" class="form-label fw-bold">New Password</label>
+                            <input type="password" class="form-control" id="newPassword" name="newPassword" minlength="6" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirmPassword" class="form-label fw-bold">Retype New Password</label>
+                            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" minlength="6" required>
+                        </div>
+                        <div class="text-end mt-4">
+                            <button type="submit" class="btn btn-secondary">
+                                <i class="bi bi-key"></i> Update Password
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
