@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using DevArena.Data;
-using DevArena.Models; 
+using DevArena.Models;
 
 public class AuthController(DevArenaDbContext context) : Controller
 {
@@ -27,6 +27,13 @@ public class AuthController(DevArenaDbContext context) : Controller
         var admin = context.Admins.FirstOrDefault(a => a.email == model.email && a.password == model.password);
         if (admin != null)
         {
+            // Block Admins from logging in as Judges
+            if (model.IsJudgeLogin)
+            {
+                ViewBag.Error = "Admins cannot log in as Judges.";
+                return View(model);
+            }
+
             role = "Admin";
             userId = admin.id.ToString();
             userName = admin.name;
@@ -37,6 +44,13 @@ public class AuthController(DevArenaDbContext context) : Controller
             var host = context.Hosts.FirstOrDefault(h => h.email == model.email && h.password == model.password);
             if (host != null)
             {
+                // Block Hosts from logging in as Judges
+                if (model.IsJudgeLogin)
+                {
+                    ViewBag.Error = "Hosts cannot log in as Judges.";
+                    return View(model);
+                }
+
                 role = "Host";
                 userId = host.id.ToString();
                 userName = host.name;
@@ -47,9 +61,40 @@ public class AuthController(DevArenaDbContext context) : Controller
                 var participant = context.Participants.FirstOrDefault(p => p.email == model.email && p.password == model.password);
                 if (participant != null)
                 {
-                    role = "Participant";
                     userId = participant.id.ToString();
                     userName = participant.name;
+
+                    // CHECKBOX LOGIC: Verify if they want to log in as a Judge
+                    if (model.IsJudgeLogin)
+                    {
+                        int pId = participant.id;
+                        var judgeRecord = context.Judges.FirstOrDefault(j => j.participant_id == pId);
+
+                        if (judgeRecord != null)
+                        {
+                            // Check if the judge status is active
+                            if (judgeRecord.Is_active)
+                            {
+                                role = "Judge"; // Assign Judge role
+                            }
+                            else
+                            {
+                                // Trigger error if they are in the judge table but not active
+                                ViewBag.Error = "Your judge account is currently inactive.";
+                                return View(model);
+                            }
+                        }
+                        else
+                        {
+                            // Trigger error if they checked the box but aren't in the Judges table
+                            ViewBag.Error = "You are not a judge.";
+                            return View(model);
+                        }
+                    }
+                    else
+                    {
+                        role = "Participant"; // Default if box is unchecked
+                    }
                 }
             }
         }
@@ -67,21 +112,8 @@ public class AuthController(DevArenaDbContext context) : Controller
             new Claim(ClaimTypes.NameIdentifier, userId),
             new Claim(ClaimTypes.Name, userName),
             new Claim(ClaimTypes.Email, model.email),
-            new Claim(ClaimTypes.Role, role) 
+            new Claim(ClaimTypes.Role, role)
         };
-
-        // *Optional Logic for Judges*
-        // Since Judges are actually Participants linked to a contest, 
-        // you can give them a secondary "Judge" role if they exist in the judges table.
-        if (role == "Participant")
-        {
-            int pId = int.Parse(userId);
-            bool isAlsoJudge = context.Judges.Any(j => j.participant_id == pId);
-            if (isAlsoJudge)
-            {
-                claims.Add(new Claim(ClaimTypes.Role, "Judge"));
-            }
-        }
 
         var identity = new ClaimsIdentity(claims, "DAAuth");
 
@@ -93,7 +125,8 @@ public class AuthController(DevArenaDbContext context) : Controller
         if (role == "Admin") return RedirectToAction("Index", "AdminDashboard");
         if (role == "Host") return RedirectToAction("Index", "HostHome");
         if (role == "Participant") return RedirectToAction("Index", "ParticipantHome");
-
+        // Redirect for Judge 
+        if (role == "Judge") return RedirectToAction("Index", "Home");
 
         return RedirectToAction("Index", "Home");
     }
@@ -101,6 +134,6 @@ public class AuthController(DevArenaDbContext context) : Controller
     public async Task<IActionResult> Logout()
     {
         await HttpContext.SignOutAsync("DAAuth");
-        return RedirectToAction("Index","Home");
+        return RedirectToAction("Index", "Home");
     }
 }

@@ -11,5 +11,8 @@ namespace DevArena.Models
         [Required]
         [DataType(DataType.Password )]
         public string password { get; set; } = null!;
+
+        [DisplayName("Login as Judge")]
+        public bool IsJudgeLogin { get; set; }
     }
 }
