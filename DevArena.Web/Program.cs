@@ -17,6 +17,7 @@ builder.Services.AddScoped<ProblemsRepo>();
 builder.Services.AddScoped<CurrentUserHelper>();
 builder.Services.AddHttpContextAccessor();
 
+
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(opt =>
 {
