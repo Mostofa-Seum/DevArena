@@ -56,5 +56,22 @@ namespace DevArena.Web.Controllers
 
             return RedirectToAction(nameof(GetParticipantsInfo));
         }
+
+        [HttpPost]
+        public IActionResult Demote(int participantId, int contestId)
+        {
+            var result = hostRepo.DemoteFromJudge(participantId, contestId);
+
+            if (result.HasError)
+            {
+                TempData["ErrorMessage"] = result.Message;
+            }
+            else
+            {
+                TempData["SuccessMessage"] = "Judge successfully demoted back to Participant!";
+            }
+
+            return RedirectToAction(nameof(GetParticipantsInfo));
+        }
     }
 }
