@@ -52,13 +52,26 @@
                         </td>
                         <td class="text-center">
 
-                            <form asp-action="Promote" asp-controller="Host" method="post" class="d-inline">
-                                <input type="hidden" name="participantId" value="@item.ParticipantId" />
-                                <input type="hidden" name="contestId" value="@item.ContestId" />
-                                <button type="submit" class="btn btn-warning btn-sm">
-                                    <i class="bi bi-star"></i> Promote
-                                </button>
-                            </form>
+                            @if (item.Role == "Judge")
+                            {
+                                <form asp-action="Demote" asp-controller="Host" method="post" class="d-inline" onsubmit="return confirm('Are you sure you want to demote this judge?');">
+                                    <input type="hidden" name="participantId" value="@item.ParticipantId" />
+                                    <input type="hidden" name="contestId" value="@item.ContestId" />
+                                    <button type="submit" class="btn btn-secondary btn-sm">
+                                        <i class="bi bi-arrow-down-circle"></i> Demote
+                                    </button>
+                                </form>
+                            }
+                            else
+                            {
+                                <form asp-action="Promote" asp-controller="Host" method="post" class="d-inline">
+                                    <input type="hidden" name="participantId" value="@item.ParticipantId" />
+                                    <input type="hidden" name="contestId" value="@item.ContestId" />
+                                    <button type="submit" class="btn btn-warning btn-sm">
+                                        <i class="bi bi-star"></i> Promote
+                                    </button>
+                                </form>
+                            }
 
                             &nbsp;
 
