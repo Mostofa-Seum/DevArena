@@ -64,7 +64,6 @@ namespace DevArena.Web.Controllers
         {
             if (id == -1)
             {
-                // Provide safe defaults for new contests to avoid DB range errors
                 var newContest = new Contests
                 {
                     start_time = DateTime.UtcNow,
