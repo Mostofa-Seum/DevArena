@@ -13,6 +13,8 @@ builder.Services.AddScoped<HostRepo>();
 builder.Services.AddScoped<ParticipantsRepo>();
 builder.Services.AddScoped<ContestRegistrationRepo>();
 builder.Services.AddScoped<ProblemsRepo>();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<DevArena.Shared.CurrentUserHelper>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

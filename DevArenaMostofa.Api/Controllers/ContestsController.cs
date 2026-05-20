@@ -1,5 +1,5 @@
-﻿using DevArena.Repos;
-using Microsoft.AspNetCore.Http;
+﻿using DevArena.Entities;
+using DevArena.Repos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DevArenaMostofa.Api.Controllers
@@ -25,11 +25,7 @@ namespace DevArenaMostofa.Api.Controllers
         [HttpPost]
         public IActionResult Create(Contests contest)
         {
-            var result = repo.Create(contest);
-            if (result.HasError)
-            {
-                return BadRequest(result.Message);
-            }
+            var result = repo.Save(contest);
             return Ok(result.Data);
 
         }
