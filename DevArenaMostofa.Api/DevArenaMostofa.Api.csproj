@@ -11,10 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\DevArena.Data\DevArena.Data.csproj" />
     <ProjectReference Include="..\DevArena.Repos\DevArena.Repos.csproj" />
   </ItemGroup>
