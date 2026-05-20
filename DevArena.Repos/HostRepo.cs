@@ -73,7 +73,7 @@ namespace DevArena.Repos
             var result = new Result<Host>();
             try
             {
-                // Adjust 'title' if your Host entity uses a different property for validation
+                // Adjust 'title if Host entity uses a different property for validation
                 if (context.Hosts.Any(c => c.name == model.name && c.id != model.id))
                 {
                     result.HasError = true;
@@ -261,6 +261,34 @@ namespace DevArena.Repos
             catch (Exception ex)
             {
                 return Result<bool>.Failure($"Failed to remove participant: {ex.Message}");
+            }
+
+
+        }
+        public Result<bool> DemoteFromJudge(int participantId, int contestId)
+        {
+            try
+            {
+                // Find the active judge record
+                var existingJudge = context.Judges
+                    .FirstOrDefault(j => j.participant_id == participantId && j.contest_id == contestId && j.Is_active == true);
+
+                if (existingJudge == null)
+                {
+                    return Result<bool>.Failure("Active judge record not found.");
+                }
+
+                // Deactivate the judge record to demote them
+                existingJudge.Is_active = false;
+
+                context.Judges.Update(existingJudge);
+                context.SaveChanges();
+
+                return Result<bool>.Success(true);
+            }
+            catch (Exception ex)
+            {
+                return Result<bool>.Failure($"Failed to demote judge: {ex.InnerException?.Message ?? ex.Message}");
             }
         }
     }
