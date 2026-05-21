@@ -1,0 +1,92 @@
+@model DevArena.Web.Models.AdminDashboardViewModel
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <h2>Admin Dashboard</h2>
+        <div>
+            <a asp-action="EditProfile" class="btn btn-secondary">Edit Profile</a>
+            <a asp-action="ContestsList" class="btn btn-primary">Manage All Contests</a>
+        </div>
+    </div>
+    <p class="text-muted">Welcome back, @Model.CurrentAdmin?.name! You have full system oversight.</p>
+    <hr />
+
+    <div class="row mb-4">
+        <div class="col-md-3 mb-3">
+            <a asp-action="Participants" class="text-decoration-none">
+                <div class="card text-white bg-primary h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Users</h5>
+                        <p class="card-text display-6">@Model.TotalParticipants</p>
+                        <small>Click to view Participants</small>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-3 mb-3">
+            <a asp-action="Hosts" class="text-decoration-none">
+                <div class="card text-white bg-success h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Hosts</h5>
+                        <p class="card-text display-6">@Model.TotalHosts</p>
+                        <small>Click to view Hosts</small>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-3 mb-3">
+            <a asp-action="ContestsList" class="text-decoration-none">
+                <div class="card text-white bg-warning h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Contests</h5>
+                        <p class="card-text display-6">@Model.TotalContests</p>
+                        <small>Click to view Contests</small>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card text-white bg-danger h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Submissions</h5>
+                    <p class="card-text display-6">@Model.TotalSubmissions</p>
+                    <small>Total Submissions</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h4>Recent Contests</h4>
+    <div class="card shadow-sm border-0 rounded-4 mt-3">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light text-secondary text-uppercase small fw-semibold">
+                <tr>
+                    <th>ID</th>
+                    <th>Contest Title</th>
+                    <th>Start Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var contest in Model.RecentContests)
+                {
+                    <tr>
+                        <td>@contest.id</td>
+                        <td>@contest.title</td>
+                        <td>@contest.start_time.ToString("g")</td>
+                    </tr>
+                }
+                @if (!Model.RecentContests.Any())
+                {
+                    <tr>
+                        <td colspan="3" class="text-center">No recent contests found.</td>
+                    </tr>
+                }
+            </tbody>
+            </table>
+        </div>
+    </div>
+</div>

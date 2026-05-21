@@ -1,0 +1,46 @@
+@model DevArena.Entities.Admin
+@{
+    ViewData["Title"] = "Edit Profile";
+}
+
+<div class="row justify-content-center mt-4">
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Edit Profile</h4>
+            </div>
+            <div class="card-body">
+                <form asp-action="EditProfile" method="post">
+                    <input type="hidden" asp-for="id" />
+
+                    <div class="mb-3">
+                        <label asp-for="name" class="form-label">Name</label>
+                        <input asp-for="name" class="form-control" />
+                        <span asp-validation-for="name" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="email" class="form-label">Email Address</label>
+                        <input asp-for="email" class="form-control" />
+                        <span asp-validation-for="email" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="password" class="form-label">Password</label>
+                        <input asp-for="password" type="password" class="form-control" placeholder="Leave empty to keep current password" value="@Model.password" />
+                        <span asp-validation-for="password" class="text-danger"></span>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-success">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

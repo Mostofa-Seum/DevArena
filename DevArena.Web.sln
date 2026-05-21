@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevArena.Models", "DevArena
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevArenaMostofa.Api", "DevArenaMostofa.Api\DevArenaMostofa.Api.csproj", "{6AA45AD9-9E58-4424-8980-B33F413EF701}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevArenaAdmin.Api", "DevArenaAdmin.Api\DevArenaAdmin.Api.csproj", "{F7644495-5555-4DF8-9170-3A5453B25F0D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{6AA45AD9-9E58-4424-8980-B33F413EF701}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6AA45AD9-9E58-4424-8980-B33F413EF701}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6AA45AD9-9E58-4424-8980-B33F413EF701}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7644495-5555-4DF8-9170-3A5453B25F0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7644495-5555-4DF8-9170-3A5453B25F0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7644495-5555-4DF8-9170-3A5453B25F0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7644495-5555-4DF8-9170-3A5453B25F0D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

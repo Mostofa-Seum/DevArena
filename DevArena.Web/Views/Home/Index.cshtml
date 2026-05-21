@@ -2,7 +2,97 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!-- Hero Section -->
+<section class="container py-5 mt-5 text-center">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <h1 class="display-4 fw-bolder text-uppercase mb-4">Welcome to <span class="text-primary">DevArena</span></h1>
+            <p class="lead text-muted mb-5">
+                The ultimate platform for competitive programming. Join coding contests, solve algorithmic problems, and prove your skills against top developers globally.
+            </p>
+            <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+                <a asp-controller="Contests" asp-action="IsActive" class="btn btn-primary btn-lg px-5 gap-3 shadow-sm rounded-pill">View Active Contests</a>
+                @if (User.Identity != null && User.Identity.IsAuthenticated)
+                {
+                    <a asp-controller="ParticipantDashboard" asp-action="Index" class="btn btn-outline-secondary btn-lg px-5 rounded-pill">My Dashboard</a>
+                }
+                else
+                {
+                    <a asp-controller="Auth" asp-action="Signup" class="btn btn-outline-secondary btn-lg px-5 rounded-pill">Register Now</a>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section id="features" class="bg-light py-5 mt-5">
+    <div class="container px-4 py-5">
+        <div class="text-center mb-5">
+            <h2 class="fw-bolder text-uppercase">Platform Features</h2>
+            <p class="text-muted">Everything you need to excel in competitive programming</p>
+        </div>
+        <div class="row g-4 justify-content-center">
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm h-100 text-center py-4 rounded-4">
+                    <div class="card-body d-flex flex-column">
+                        <div class="display-4 text-primary mb-3">
+                            <i class="bi bi-clock-history"></i>
+                        </div>
+                        <h4 class="card-title fw-bold mb-3">Live Contests</h4>
+                        <p class="card-text text-muted mb-4 flex-grow-1">Participate in scheduled competitive programming contests hosted by universities and organizations to climb the leaderboard.</p>
+                        <a asp-controller="Contests" asp-action="IsActive" class="btn btn-outline-primary btn-sm rounded-pill mt-auto mx-auto px-4">Find Contests</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm h-100 text-center py-4 rounded-4">
+                    <div class="card-body d-flex flex-column">
+                        <div class="display-4 text-primary mb-3">
+                            <i class="bi bi-code-slash"></i>
+                        </div>
+                        <h4 class="card-title fw-bold mb-3">Diverse Problems</h4>
+                        <p class="card-text text-muted mb-4 flex-grow-1">Test your knowledge with a wide variety of algorithmic and data structure problems. Improve your logical thinking.</p>
+                        <a asp-controller="Auth" asp-action="Signup" class="btn btn-outline-primary btn-sm rounded-pill mt-auto mx-auto px-4">Start Practicing</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm h-100 text-center py-4 rounded-4">
+                    <div class="card-body d-flex flex-column">
+                        <div class="display-4 text-primary mb-3">
+                            <i class="bi bi-trophy"></i>
+                        </div>
+                        <h4 class="card-title fw-bold mb-3">Host Your Own</h4>
+                        <p class="card-text text-muted mb-4 flex-grow-1">Register as a host, manage participants, configure problems, and oversee your custom branded competitions effortlessly.</p>
+                        <a asp-controller="Auth" asp-action="Signup" class="btn btn-outline-primary btn-sm rounded-pill mt-auto mx-auto px-4">Become a Host</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section id="about" class="py-5 mt-4">
+    <div class="container py-5 text-center">
+        <h2 class="fw-bolder text-uppercase mb-4">About DevArena</h2>
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <p class="lead text-muted mb-5">
+                    DevArena is built for developers by developers. We believe in providing a seamless, fast, and fair environment for algorithmic competitions. Our robust judgment system handles code evaluation smoothly so you can focus strictly on what matters: the code.
+                </p>
+                @if (User.Identity != null && User.Identity.IsAuthenticated)
+                {
+                    <div class="alert alert-success d-inline-block shadow-sm rounded-pill px-4" role="alert">
+                        <i class="bi bi-check-circle-fill me-2"></i> Glad to have you with us, <strong>@User.Identity.Name</strong>!
+                    </div>
+                }
+                else
+                {
+                    <a asp-controller="Auth" asp-action="Login" class="btn btn-primary btn-lg px-5 shadow-sm rounded-pill">Login to Continue</a>
+                }
+            </div>
+        </div>
+    </div>
+</section>

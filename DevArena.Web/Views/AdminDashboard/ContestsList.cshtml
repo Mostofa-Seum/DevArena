@@ -1,0 +1,61 @@
+@model IEnumerable<DevArena.Entities.Contests>
+@{
+    ViewData["Title"] = "All Contests";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>All Contests</h2>
+        <a asp-action="Index" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+
+    <div class="card shadow-sm border-0 rounded-4 mb-4">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light text-secondary text-uppercase small fw-semibold">
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Host</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var contest in Model)
+            {
+                <tr>
+                    <td>@contest.id</td>
+                    <td>@contest.title</td>
+                    <td>@(contest.Hosts?.name ?? "N/A")</td>
+                    <td>@contest.start_time.ToString("g")</td>
+                    <td>@contest.end_time.ToString("g")</td>
+                    <td>
+                        <span class="badge @(contest.is_active ? "bg-success" : "bg-secondary")">
+                            @(contest.is_active ? "Active" : "Canceled")
+                        </span>
+                    </td>
+                    <td>
+                        @if (contest.is_active)
+                        {
+                            <form asp-action="CancelContest" asp-route-id="@contest.id" method="post" class="d-inline" onsubmit="return confirm('Are you sure you want to cancel this contest?');">
+                                <button type="submit" class="btn btn-sm btn-warning">Cancel</button>
+                            </form>
+                        }
+                        <form asp-action="DeleteContest" asp-route-id="@contest.id" method="post" class="d-inline" onsubmit="return confirm('Are you sure you want to entirely delete this contest?');">
+                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+            @if (!Model.Any())
+            {
+                <tr><td colspan="7" class="text-center">No contests found.</td></tr>
+            }
+        </tbody>
+            </table>
+        </div>
+    </div>
+</div>

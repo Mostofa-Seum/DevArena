@@ -14,6 +14,7 @@ builder.Services.AddScoped<HostRepo>();
 builder.Services.AddScoped<ParticipantsRepo>();
 builder.Services.AddScoped<ContestRegistrationRepo>();
 builder.Services.AddScoped<ProblemsRepo>();
+builder.Services.AddScoped<AdminRepo>();
 builder.Services.AddScoped<CurrentUserHelper>();
 builder.Services.AddHttpContextAccessor();
 

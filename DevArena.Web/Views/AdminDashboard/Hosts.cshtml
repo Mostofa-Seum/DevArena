@@ -1,0 +1,56 @@
+@model IEnumerable<DevArena.Entities.Host>
+@{
+    ViewData["Title"] = "All Hosts";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>All Hosts</h2>
+        <a asp-action="Index" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+
+    <div class="card shadow-sm border-0 rounded-4 mb-4">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light text-secondary text-uppercase small fw-semibold">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var host in Model)
+            {
+                <tr>
+                    <td>@host.id</td>
+                    <td>@host.name</td>
+                    <td>@host.email</td>
+                    <td>
+                        <span class="badge @(host.Is_active ? "bg-success" : "bg-warning text-dark")">
+                            @(host.Is_active ? "Active" : "Inactive")
+                        </span>
+                    </td>
+                    <td>
+                        <form asp-action="ToggleHostStatus" asp-route-id="@host.id" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-sm @(host.Is_active ? "btn-warning" : "btn-success")" title="Toggle Status">
+                                @(host.Is_active ? "Deactivate" : "Activate")
+                            </button>
+                        </form>
+                        <form asp-action="DeleteHost" asp-route-id="@host.id" method="post" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this host?');">
+                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+            @if (!Model.Any())
+            {
+                <tr><td colspan="5" class="text-center">No hosts found.</td></tr>
+            }
+        </tbody>
+            </table>
+        </div>
+    </div>
+</div>
