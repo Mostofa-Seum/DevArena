@@ -64,13 +64,11 @@ namespace DevArena.Repos
                     }
                     else
                     {
-                        // If they left previously, just reactivate their registration
                         existingRegistration.is_active = true;
                     }
                 }
                 else
                 {
-                    // eeate a brand new registration record
                     var newRegistration = new ContestRegistration
                     {
                         participant_id = participantId,
@@ -118,7 +116,6 @@ namespace DevArena.Repos
                     return result;
                 }
 
-                // "Soft Delete" by setting is_active to false
                 existingRegistration.is_active = false;
 
                 context.SaveChanges();

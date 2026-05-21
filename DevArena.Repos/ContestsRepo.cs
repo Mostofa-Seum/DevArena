@@ -96,13 +96,12 @@ namespace DevArena.Repos
                     context.Contests.Add(objToSave);
                 }
 
-                // Update these mapping fields to match your actual Contests entity properties
                 objToSave.title = model.title;
                 objToSave.start_time = model.start_time;
                 objToSave.end_time = model.end_time;
                 objToSave.is_active = model.is_active;
 
-                // ADD THIS SAFETY CHECK:
+                // SAFETY CHECK:
                 int hostId = currentUserHelper.UserId;
                 if (hostId <= 0)
                 {

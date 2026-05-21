@@ -5,6 +5,7 @@ using DevArena.Shared;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System;
+using System.Collections.Generic;
 
 namespace DevArena.Web.Controllers
 {
@@ -17,12 +18,11 @@ namespace DevArena.Web.Controllers
             var result = contestsRepo.GetActive();
             if (result.HasError)
             {
-                ViewBag.ErrorMessage = result.Message;
+                ViewBag.Error = result.Message;
                 return View(new List<Contests>());
             }
 
             ViewBag.RegisteredContests = new List<int>();
-
 
             if (User.IsInRole("Participant"))
             {
@@ -42,7 +42,8 @@ namespace DevArena.Web.Controllers
             var result = contestsRepo.GetInActive();
             if (result.HasError)
             {
-                ViewBag.ErrorMessage = result.Message;
+
+                ViewBag.Error = result.Message;
                 return View();
             }
             return View(result.Data);
@@ -54,7 +55,8 @@ namespace DevArena.Web.Controllers
 
             if (result.HasError)
             {
-                ViewBag.ErrorMessage = result.Message;
+
+                ViewBag.Error = result.Message;
                 return View(new List<Contests>());
             }
             return View(result.Data);
@@ -100,7 +102,6 @@ namespace DevArena.Web.Controllers
 
             if (!ModelState.IsValid)
             {
-
                 return View(model);
             }
 
@@ -108,11 +109,14 @@ namespace DevArena.Web.Controllers
 
             if (result.HasError)
             {
-                ViewBag.ErrorMessage = result.Message;
+                ViewBag.Error = result.Message;
                 return View(model);
             }
 
-            if (result.Data != null) TempData["Success"] = $"Contest with ID {result.Data.id} has been successfully saved.";
+            if (result.Data != null)
+            {
+                TempData["Success"] = $"Contest with ID {result.Data.id} has been successfully saved.";
+            }
             return RedirectToAction("Index");
         }
 
@@ -125,11 +129,10 @@ namespace DevArena.Web.Controllers
             }
             else
             {
+
                 TempData["Success"] = $"Contest with ID {id} has been successfully deleted.";
             }
             return RedirectToAction("Index");
         }
-
-
     }
 }
