@@ -10,12 +10,14 @@ namespace DevArenaAdmin.Api.Controllers
     public class adminviewuser(AdminRepo repo) : ControllerBase
     {
         [HttpGet]
-        public async Task<IActionResult> Get() // 2. Added 'async Task<'
+        public IActionResult Get()
         {
-            // 3. Added 'await' here to cleanly unpack the data
-            var result = await repo.GetAllParticipantsAsync();
-
-            return Ok(result);
+            var result = repo.GetAllParticipantsAsync().GetAwaiter().GetResult();
+            if (result.HasError)
+            {
+                return BadRequest(result.Message);
+            }
+            return Ok(result.Data);
         }
     }
 }
